@@ -1,1 +1,2 @@
+.PHONY: all
 all: p*
