@@ -24,6 +24,9 @@ int main() {
     cur += std::stoi(line);
   }
 
-  std::cout << std::accumulate(top.begin(), std::next(top.begin(), 4), 0)
+  for (size_t i = 0; i < 3; i++) {
+    std::cout << *std::next(top.begin(), i) << std::endl;
+  }
+  std::cout << std::accumulate(top.begin(), std::next(top.begin(), 3), 0)
             << std::endl;
 }
