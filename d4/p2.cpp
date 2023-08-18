@@ -14,7 +14,7 @@ bool a_overlaps_b(int64_t a1, int64_t a2, int64_t b1, int64_t b2) {
   if (b1 > b2)
     std::swap(b1, b2);
 
-  return b1 >= a1 && b1 <= a2 || a1 >= b1 && a1 <= b2;
+  return b1 <= a2 && a1 <= b2;
 }
 int main() {
   int64_t a1, a2, b1, b2;
