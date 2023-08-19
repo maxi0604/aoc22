@@ -6,7 +6,6 @@
 #include <utility>
 #include <vector>
 int main() {
-  std::deque<std::pair<int, int>> pipeline{};
   std::set<int64_t> relevant{20, 60, 100, 140, 180, 220};
   std::string instr;
   int64_t val;
@@ -16,30 +15,31 @@ int main() {
   while (std::cin >> instr) {
     if (instr == "addx") {
       std::cin >> val;
-      pipeline.push_back({1, val});
       std::cout << "add " << val << std::endl;
-    } else if (instr != "noop") {
+      // next cycle is also consumed by add so skip one. (not forgoing the
+      // check)
+      if (relevant.count(cycle)) {
+        ss_sum += cycle * x;
+      }
+      cycle++;
+
+      if (relevant.count(cycle)) {
+        ss_sum += cycle * x;
+      }
+      x += val;
+      cycle++;
+    } else if (instr == "noop") {
+      if (relevant.count(cycle)) {
+        ss_sum += cycle * x;
+      }
+      cycle++;
+    } else {
       std::cout << "invalid: " << instr << std::endl;
       continue;
     }
 
     std::cout << "cycle = " << cycle << ": x = " << x << " ss = " << cycle * x
               << std::endl;
-    if (relevant.count(cycle)) {
-      ss_sum += cycle * x;
-    }
-
-    for (auto it = pipeline.begin(); it != pipeline.end();) {
-      if (it->first == 0) {
-        x += it->second;
-        it = pipeline.erase(it);
-      } else {
-        (it->first)--;
-        it++;
-      }
-    }
-
-    cycle++;
   }
 
   std::cout << "signal strength sum: " << ss_sum << std::endl;
