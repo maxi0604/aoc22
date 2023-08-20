@@ -1,0 +1,94 @@
+#include <algorithm>
+#include <cstdint>
+#include <iostream>
+#include <set>
+#include <tuple>
+#include <vector>
+
+int64_t to_cube_idx(int64_t x, int64_t y, int64_t z, int64_t s) {
+  return x + s * y + s * s * z;
+}
+
+int64_t to_cube_idx_s(int64_t x, int64_t y, int64_t z, int64_t s) {
+  s = s - 1;
+  return x + 1 + s * (y + 1) + s * s * (z + 1);
+}
+
+int64_t find(std::vector<int64_t> &uf, int64_t a) {
+  if (uf[a] == a) {
+    return a;
+  } else {
+    return uf[a] = find(uf, uf[a]);
+  }
+}
+void unionize(std::vector<int64_t> &uf, int64_t a, int64_t b) {
+  a = find(uf, a);
+  b = find(uf, b);
+  if (a == b)
+    return;
+
+  uf[b] = a;
+}
+
+void connect_all_to_root(vector<int64_t> &uf, int64_t x, int64_t y, int64_t z,
+                         bool shift){
+    int64_t uf_idx = shift ? to_cube_idx_s(x, y, z, s)
+                           : } std::vector<int64_t> init(int64_t n) {
+  auto vec = std::vector<int64_t>(n);
+  for (int64_t i = 0; i < n; i++) {
+    vec[i] = i;
+  }
+  return vec;
+}
+int main() {
+  std::set<std::tuple<int64_t, int64_t, int64_t>> rock{};
+  int64_t xmax = 0, ymax = 0, zmax = 0;
+
+  int64_t x, y, z;
+  char comma;
+  while (std::cin >> x >> comma >> y >> comma >> z) {
+    if (x > xmax)
+      xmax = x;
+    if (y > ymax)
+      ymax = y;
+    if (z > zmax)
+      zmax = z;
+    rock.insert({x, y, z});
+  }
+
+  // bounding cube.
+  int64_t bc_size = std::max({xmax, ymax, zmax}) + 3;
+  auto uf = init(bc_size * bc_size * bc_size);
+
+  int64_t count = 0;
+  for (auto &[x, y, z] : rock) {
+    if (rock.count({x + 1, y, z}) == 0)
+      count++;
+    if (rock.count({x - 1, y, z}) == 0)
+      count++;
+    if (rock.count({x, y + 1, z}) == 0)
+      count++;
+    if (rock.count({x, y - 1, z}) == 0)
+      count++;
+    if (rock.count({x, y, z + 1}) == 0)
+      count++;
+    if (rock.count({x, y, z - 1}) == 0)
+      count++;
+  }
+
+  for (auto &[x, y, z] : rock) {
+    if (rock.count({x + 1, y, z}) == 0)
+      count++;
+    if (rock.count({x - 1, y, z}) == 0)
+      count++;
+    if (rock.count({x, y + 1, z}) == 0)
+      count++;
+    if (rock.count({x, y - 1, z}) == 0)
+      count++;
+    if (rock.count({x, y, z + 1}) == 0)
+      count++;
+    if (rock.count({x, y, z - 1}) == 0)
+      count++;
+  }
+  std::cout << count << std::endl;
+}
