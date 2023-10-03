@@ -52,7 +52,6 @@ std::deque<int16_t> lltosnafu(int64_t ll) {
     }
   }
 
-  // Coax it into a snafu.
   for (int64_t i = base5.size() - 1;
        i >= (int64_t)(base5.size() - digits_before_fix); --i) {
     base5[i] = base5[i] - 2;
