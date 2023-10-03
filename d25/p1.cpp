@@ -14,7 +14,7 @@
 #include <utility>
 #include <vector>
 
-int64_t snafutoll(std::deque<int16_t> snafu) {
+int64_t snafutoll(std::deque<int16_t> const &snafu) {
   int64_t result = 0;
   int64_t factor = 1;
   for (int64_t i = snafu.size() - 1; i >= 0; --i) {
